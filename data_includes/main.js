@@ -315,13 +315,13 @@ PennController.Template(PennController.GetTable("practice.csv"),
                 .after( newText("sentence2", variable.Sentence) )
                 .settings.css("font-size", "2em")
 //                .print()
-            ,
+            /*,
             //newButton("true", "True")         // a button with the word 'start'; DP
 //                .print()
             ,
             //newButton("false", "False") // a button with the word 'start'; DP
 //                .print()
-            ,
+            ,*/
             newCanvas("task", 800, 400)
                 .settings.center()
                 .settings.add(   400, 0, getText("sentence") )

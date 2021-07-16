@@ -6,7 +6,7 @@ PennController.ResetPrefix(null);  // setting prefix to zero
 PennController.DebugOff()
 
 // source: https://www.pcibex.net/forums/topic/adding-break-trials/
-function SepWithN(sep, main, n) {
+/*function SepWithN(sep, main, n) {
     this.args = [sep,main];
 
     this.run = function(arrays) {
@@ -29,12 +29,13 @@ function SepWithN(sep, main, n) {
         }
     }
 }
-function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }
+function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }*/
 //
 //
 //
 //
-Sequence("counter", "hello", "consent", "demographics", "explain", "prac", "start", sepWithN( "break" , randomize("trial") , 22 ) , "send" , "final" );
+//Sequence("counter", "hello", "consent", "demographics", "explain", "prac", "start", sepWithN( "break" , randomize("trial") , 22 ) , "send" , "final" );
+Sequence("counter", "start", randomize("trial") , "send" , "final" );
 SetCounter("counter", "inc", 1);
 //
 //
@@ -309,21 +310,24 @@ PennController.Template(PennController.GetTable("practice.csv"),
 //                .print()
             ,
             newText("sentence", variable.Sentence)
+                .settings.before( newDropDown("O", "...").settings.add("some","all", "none") )
+                .settings.after( newDropDown("I", "...").settings.add("some","all", "none") )
+                .after( newText("sentence2", variable.Sentence) )
                 .settings.css("font-size", "2em")
 //                .print()
             ,
-            newButton("true", "True")         // a button with the word 'start'; DP
+            //newButton("true", "True")         // a button with the word 'start'; DP
 //                .print()
             ,
-            newButton("false", "False") // a button with the word 'start'; DP
+            //newButton("false", "False") // a button with the word 'start'; DP
 //                .print()
             ,
-            newCanvas("task", 1200, 350)
+            newCanvas("task", 800, 400)
                 .settings.center()
-                .settings.add(   50, 100, getText("sentence") )
-                .settings.add(   550, 0, getImage("one") )
-                .settings.add(   450, 330, getButton("true") )
-                .settings.add(   650, 330, getButton("false") )
+                .settings.add(   400, 0, getText("sentence") )
+                .settings.add(   200, 100, getImage("one") )
+                //.settings.add(   450, 330, getButton("true") )
+                //.settings.add(   650, 330, getButton("false") )
                 .print()
             ,
             newSelector()

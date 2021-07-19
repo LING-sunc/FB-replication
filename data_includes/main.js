@@ -35,9 +35,9 @@ function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }*/
 //
 //
 //Sequence("counter", "hello", "consent", "demographics", "explain", "prac", "start", sepWithN( "break" , randomize("trial") , 22 ) , "send" , "final" );
-Sequence("counter", "start", randomize("trial") , "send" , "final" );
+Sequence("counter",  "explain", "training1", "training2", "training3", randomize("trial") , "send" , "final" );
 SetCounter("counter", "inc", 1);
-//
+//"information", "consent", "hello", "demographics",
 //
 //
 // =========== The Experiment ================
@@ -68,7 +68,7 @@ SetCounter("counter", "inc", 1);
             .print()
             .wait()
         ,
-
+    )
     .setOption("countsForProgressBar", false) // this section will not be counted in the progress bar
     .setOption("hideProgressBar", true) // progress bar hidden during this controller.
     .noHeader()
@@ -92,7 +92,7 @@ SetCounter("counter", "inc", 1);
 //            .log()
 //            .print("center at 50%", "middle at 75%" )
 //            .wait()
-     ,
+        ,
        newButton("disagree", "I do NOT consent (leave)")
 //            .print("center at 50%", "middle at 25%" )
 //            .wait()
@@ -238,82 +238,90 @@ PennController("hello"
     ,
 
     newImage("N", "https://uclpsych.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_1FwOXfkwVNlEtTg")
+    .settings.size(400, 200)
     ,
 
-    newText("none", "Here's a girl that has baked cupbakes but has not decorated them.")
+    newText("none", "Here's a girl that has baked cupcakes but has not decorated them.")
     ,
 
     newButton("start1", "Got it! Show me more!")
     ,
 
-    newCanvas("girl1", 600, 200)
+    newCanvas("girl1", 600, 250)
          .settings.center()
-         .settings.add(   100, 0, getImage("N") )
-         .settings.add(   0, 100, getText("none") )
-         .settings.add( 0, 200, getButton("start2") )
+         .settings.add(   0, 0, getText("none") )
+         .settings.add(   100, 25, getImage("N") )
+         .settings.add( 0, 250, getButton("start1") )
          .print()
      ,
 
      newSelector()
          .settings.add( getButton("start1")  )
-         .settings.log()
          .wait()
 
 )
+.setOption("countsForProgressBar", false)
+.setOption("hideProgressBar", true);
+
 // Training - Some
     PennController("training2"
     ,
 
     newImage("S", "https://uclpsych.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_0oLxV6vNTsHER4a")
+    .settings.size(400, 200)
     ,
 
-    newText("some", "Here's a girl that has baked cupbakes but has not finished decorating them.")
+    newText("some", "Here's a girl that has baked cupcakes but has not finished decorating them.")
     ,
 
     newButton("start2", "Got it! Show me more!")
     ,
 
-    newCanvas("girl2", 600, 200)
+    newCanvas("girl2", 600, 250)
          .settings.center()
-         .settings.add(   100, 0, getImage("S") )
-         .settings.add(   0, 100, getText("some") )
-         .settings.add( 0, 200, getButton("start2") )
+         .settings.add(   0, 0, getText("some") )
+         .settings.add(   100, 25, getImage("S") )
+         .settings.add( 0, 250, getButton("start2") )
          .print()
      ,
 
      newSelector()
          .settings.add( getButton("start2")  )
-         .settings.log()
          .wait()
 
 )
+.setOption("countsForProgressBar", false)
+.setOption("hideProgressBar", true);
+
 //Training - ALL
   PennController("training3"
   ,
 
   newImage("A", "https://uclpsych.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_3CVKsHmo2uTy7QO")
+    .settings.size(400, 200)
   ,
 
-  newText("all", "Here's a girl that has baked cupbakes and has finished decorating them.")
+  newText("all", "Here's a girl that has baked cupcakes and has finished decorating them.")
   ,
 
   newButton("start3", "I'm ready. Let's get to work.")
   ,
 
-  newCanvas("girl3", 600, 200)
+  newCanvas("girl3", 600, 250)
        .settings.center()
-       .settings.add(   100, 0, getImage("A") )
-       .settings.add(   0, 100, getText("all") )
-       .settings.add( 0, 200, getButton("start3") )
+       .settings.add(   0, 0, getText("all") )
+       .settings.add(   100, 25, getImage("A") )
+       .settings.add( 0, 250, getButton("start3") )
        .print()
    ,
 
    newSelector()
        .settings.add( getButton("start3")  )
-       .settings.log()
        .wait()
 
   )
+  .setOption("countsForProgressBar", false)
+  .setOption("hideProgressBar", true);
 //
 //
 // 7. Trial events
@@ -327,7 +335,7 @@ PennController("hello"
             ,
 
             newImage("one", variable.Link)
-                .settings.size(560, 280)
+                .settings.size(600, 200)
             ,
 
             newText("scenario", "Here's a group of girls after their craft class.")
@@ -346,23 +354,26 @@ PennController("hello"
                 .settings.log()
             ,
 
-            newText("sentence", variable.Sentence1)
+            newText("sentence", "of the girls iced")
                 .settings.before( getDropDown("O") )
-                .settings.after( getDropDown("I") )
-                .after( newText("sentence2", variable.Sentence2) )
-                .settings.css("font-size", "xxem")
+            ,
+
+            newText("sentence2", "of their cakes.")
+                .settings.before( getDropDown("I") )
+                //.settings.css("font-size", "xxem")
             ,
 
             newButton("next", "Next")
             ,
 
-            newCanvas("task", 400, 400)
+            newCanvas("task", 600, 500)
                 .settings.center()
                 .settings.add( 0, 0, getText("scenario"))
                 .settings.add( 0, 50, getImage("one") )
-                .settings.add( 0, 300, getText("instruction") )
-                .settings.add( 100, 350, getText("sentence"))
-                .settings.add( 400, 400, getButton("next"))
+                .settings.add( 0, 275, getText("instruction") )
+                .settings.add( 0, 325, getText("sentence"))
+                .settings.add( 160, 325, getText("sentence2"))
+                .settings.add( 0, 375, getButton("next"))
                 .print()
             ,
 

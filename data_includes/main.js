@@ -35,9 +35,9 @@ function sepWithN(sep, main, n) { return new SepWithN(sep, main, n); }*/
 //
 //
 //Sequence("counter", "hello", "consent", "demographics", "explain", "prac", "start", sepWithN( "break" , randomize("trial") , 22 ) , "send" , "final" );
-Sequence("counter",  "explain", "training1", "training2", "training3", randomize("trial") , "send" , "final" );
+Sequence("counter", "information", "consent", "hello", "demographics", "explain", "training1", "training2", "training3", randomize("trial") , "send" , "final" );
 SetCounter("counter", "inc", 1);
-//"information", "consent", "hello", "demographics",
+//
 //
 //
 // =========== The Experiment ================

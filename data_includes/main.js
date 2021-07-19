@@ -49,8 +49,79 @@ SetCounter("counter", "inc", 1);
 //
 //
 // II. The Controller(s)
-// 1. Welcomming Participant and asking for ID
-    PennController("hello"
+
+//1. Information
+    PennController("information"
+        ,
+
+        newHtml("infor", "info_sheet.html")
+            .center()
+            .print()
+            .log()
+        ,
+
+        getHtml("infor")
+        ,
+
+        newButton("continue")
+            .center()
+            .print()
+            .wait()
+        ,
+
+    .setOption("countsForProgressBar", false) // this section will not be counted in the progress bar
+    .setOption("hideProgressBar", true) // progress bar hidden during this controller.
+    .noHeader()
+    ;
+//
+//
+// 2. Consent
+    PennController("consent"
+        ,
+
+        newHtml("consent", "consent.html")
+            .center()
+            .print()
+            .log()
+        ,
+        // cheap formating with white space text element, adding two empty lines
+        newText("doublebreak", "<br><br>")
+            .print()
+        ,
+        newButton("agree", "I consent (continue)")
+//            .log()
+//            .print("center at 50%", "middle at 75%" )
+//            .wait()
+     ,
+       newButton("disagree", "I do NOT consent (leave)")
+//            .print("center at 50%", "middle at 25%" )
+//            .wait()
+        ,
+       newCanvas("form", 600, 200)
+            .settings.center()
+            .settings.add(   50, 100, getButton("disagree") )
+            .settings.add(   400, 100, getButton("agree") )
+            .print()
+        ,
+        newSelector()
+
+            .settings.add( getButton("agree") , getButton("disagree") )
+            .settings.log()
+            .wait()
+            .test.selected( getButton("disagree"))
+            .success( newText("Please close this tab to exit the experiment.")
+                        .center()
+                        .print()
+                        .wait())
+
+    )
+    .setOption("countsForProgressBar", false)
+    .setOption("hideProgressBar", true)
+    .noHeader()
+    ;
+//
+// 3. Welcomming Participant and asking for ID
+PennController("hello"
         ,
 
         // Create HTML element from Form uploaded to "chunk_includes" section
@@ -105,69 +176,11 @@ SetCounter("counter", "inc", 1);
 //
 //
 //
-//
-// 2. Information and Consent
-    PennController("consent",
-        newHtml("consent", "consent.html")
-            .center()
-            .print()
-            .log()
-        ,
-        // cheap formating with white space text element, adding two empty lines
-        newText("doublebreak", "<br><br>")
-            .print()
-        ,
-        newButton("agree", "I consent (continue)")
-//            .log()
-//            .print("center at 50%", "middle at 75%" )
-//            .wait()
-     ,
-       newButton("disagree", "I do NOT consent (leave)")
-//            .print("center at 50%", "middle at 25%" )
-//            .wait()
-        ,
-       newCanvas("form", 600, 200)
-            .settings.center()
-            .settings.add(   50, 100, getButton("disagree") )
-            .settings.add(   400, 100, getButton("agree") )
-            .print()
-        ,
-        newSelector()
-
-            .settings.add( getButton("agree") , getButton("disagree") )
-            .settings.log()
-            .wait()
-            .test.selected( getButton("disagree"))
-            .success( newText("Please close this tab to exit the experiment.")
-                        .center()
-                        .print()
-                        .wait())
-
-//            .failure( newText("Incorrect!")
-//                     .center()
-//                     .print())
-
-//       getButton(disagree).test.selected("Yes")
-//            .success( SendResults() )
-
-    )
-    .log("ID", getVar("ID"))
-    .setOption("countsForProgressBar", false)
-    .setOption("hideProgressBar", true)
-    .noHeader()
-    ;
-//
-//
-//
-//
-// 3. Collecting demographic data
+// 4. Collecting demographic data
 
     PennController("demographics"
         ,
         newHtml("demographics", "demographics.html")
-//          .checkboxWarning("Bitte setze ein Häckchen bei '%name%', um fortzufahren!")
-//            .inputWarning("Bitte trage etwas in das Feld '%name%' ein, um fortzufahren!")
-//            .radioWarning("Bitte setze deine Auswahl im Feld '%name%', um fortzufahren!")
             .center()
             .print()
             .log()
@@ -191,110 +204,117 @@ SetCounter("counter", "inc", 1);
     ;
 //
 //
-//
-//
 // 5. Procedure explained
     PennController("explain"
         ,
+
         newHtml("howto", "howto.html")
             .center()
             .print()
             .log()
         ,
+
         getHtml("howto")
         ,
+
         // cheap formating with white space text element, adding two empty lines
         newText("doublebreak", "<br><br>")
             .print()
         ,
-        newButton("start")
+
+        newButton("start0", "Got it!")
             .log()
             .center()
             .print()
             .wait()
     )
+
     .log("ID", getVar("ID"))  // ensuring to collect ID
     .setOption("countsForProgressBar", false)
     .setOption("hideProgressBar", true);
 //
-//
-//
-// 6. Practice
-//
-PennController.Template(PennController.GetTable("practice.csv"),
-    variable =>
-    PennController("prac"
-        ,
-        newTimer("wait1", 250)
-            .start()
-            .wait()
-        ,
-        newImage("one", variable.Link)
-            .settings.size(560, 280)
-//                .print()
-        ,
-        newText("sentence", variable.Sentence)
-            .settings.css("font-size", "2em")
-//                .print()
-        ,
-        newButton("1T", "True")         // a button with the word 'start'; DP
-//                .print()
-        ,
-        newButton("0F", "False") // a button with the word 'start'; DP
-//                .print()
-        ,
-        newCanvas("task", 1200, 350)
-            .settings.center()
-            .settings.add(   50, 100, getText("sentence") )
-            .settings.add(   550, 0, getImage("one") )
-            .settings.add(   450, 330, getButton("1T") )
-            .settings.add(   650, 330, getButton("0F") )
-            .print()
-        ,
-        newSelector()
+//6. Training - None
+    PennController("training1"
+    ,
 
-            .settings.add( getButton("1T") , getButton("0F") )
-            .settings.keys(          "ArrowLeft"  ,           "ArrowRight")
-            .settings.log()
-            .wait()
-            .test.selected( getButton(variable.CA ))
-            .success( newText("Correct!")
-                     .center()
-                     .print())
-            .failure( newText("Incorrect!")
-                     .center()
-                     .print())
-        ,
-        newTimer(1000).start().wait()
+    newImage("N", "https://uclpsych.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_1FwOXfkwVNlEtTg")
+    ,
 
-        )
+    newText("none", "Here's a girl that has baked cupbakes but has not decorated them.")
+    ,
 
-        .log("ItemID", variable.Item)
-        .log("List", variable.List)
-        .log("Condition", variable.Condition)
-        .log( "ID" , getVar("ID"))
+    newButton("start1", "Got it! Show me more!")
+    ,
 
-        );
-//
-//
-//
-//
-    PennController("start"
-        ,
-        newText("endprac", "Great! Let's get started for real now.")
-            .settings.css("font-size", "2em")
-            .center()
-            .print()
-        ,
-        newText("key", "Press any key to continue.")
-            .settings.css("font-size", "2em")
-            .center()
-            .print()
-        ,
+    newCanvas("girl1", 600, 200)
+         .settings.center()
+         .settings.add(   100, 0, getImage("N") )
+         .settings.add(   0, 100, getText("none") )
+         .settings.add( 0, 200, getButton("start2") )
+         .print()
+     ,
 
-        newKey("any", "")
-            .wait()
-    );
+     newSelector()
+         .settings.add( getButton("start1")  )
+         .settings.log()
+         .wait()
+
+)
+// Training - Some
+    PennController("training2"
+    ,
+
+    newImage("S", "https://uclpsych.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_0oLxV6vNTsHER4a")
+    ,
+
+    newText("some", "Here's a girl that has baked cupbakes but has not finished decorating them.")
+    ,
+
+    newButton("start2", "Got it! Show me more!")
+    ,
+
+    newCanvas("girl2", 600, 200)
+         .settings.center()
+         .settings.add(   100, 0, getImage("S") )
+         .settings.add(   0, 100, getText("some") )
+         .settings.add( 0, 200, getButton("start2") )
+         .print()
+     ,
+
+     newSelector()
+         .settings.add( getButton("start2")  )
+         .settings.log()
+         .wait()
+
+)
+//Training - ALL
+  PennController("training3"
+  ,
+
+  newImage("A", "https://uclpsych.eu.qualtrics.com/ControlPanel/Graphic.php?IM=IM_3CVKsHmo2uTy7QO")
+  ,
+
+  newText("all", "Here's a girl that has baked cupbakes and has finished decorating them.")
+  ,
+
+  newButton("start3", "I'm ready. Let's get to work.")
+  ,
+
+  newCanvas("girl3", 600, 200)
+       .settings.center()
+       .settings.add(   100, 0, getImage("A") )
+       .settings.add(   0, 100, getText("all") )
+       .settings.add( 0, 200, getButton("start3") )
+       .print()
+   ,
+
+   newSelector()
+       .settings.add( getButton("start3")  )
+       .settings.log()
+       .wait()
+
+  )
+//
 //
 // 7. Trial events
     PennController.Template( PennController.GetTable("item.csv"),   // creates a template to be used for multiple trials; will use .csv in chunk_includes
@@ -305,36 +325,49 @@ PennController.Template(PennController.GetTable("practice.csv"),
                 .start()
                 .wait()
             ,
+
             newImage("one", variable.Link)
                 .settings.size(560, 280)
-//                .print()
             ,
-            newText("sentence", variable.Sentence)
-                .settings.before( newDropDown("O", "...").settings.add("some","all", "none") )
-                .settings.after( newDropDown("I", "...").settings.add("some","all", "none") )
-                .after( newText("sentence2", variable.Sentence) )
-                .settings.css("font-size", "2em")
-//                .print()
-            /*,
-            //newButton("true", "True")         // a button with the word 'start'; DP
-//                .print()
+
+            newText("scenario", "Here's a group of girls after their craft class.")
             ,
-            //newButton("false", "False") // a button with the word 'start'; DP
-//                .print()
-            ,*/
-            newCanvas("task", 800, 400)
+
+            newText("instruction", "Please describe the situation for the parents as best as you can.")
+            ,
+
+            newDropDown("O", "...")
+                .settings.add("All","Some", "None")
+                .settings.log()
+            ,
+
+            newDropDown("I", "...")
+                .settings.add("all","some", "none")
+                .settings.log()
+            ,
+
+            newText("sentence", variable.Sentence1)
+                .settings.before( getDropDown("O") )
+                .settings.after( getDropDown("I") )
+                .after( newText("sentence2", variable.Sentence2) )
+                .settings.css("font-size", "xxem")
+            ,
+
+            newButton("next", "Next")
+            ,
+
+            newCanvas("task", 400, 400)
                 .settings.center()
-                .settings.add(   400, 0, getText("sentence") )
-                .settings.add(   200, 100, getImage("one") )
-                //.settings.add(   450, 330, getButton("true") )
-                //.settings.add(   650, 330, getButton("false") )
+                .settings.add( 0, 0, getText("scenario"))
+                .settings.add( 0, 50, getImage("one") )
+                .settings.add( 0, 300, getText("instruction") )
+                .settings.add( 100, 350, getText("sentence"))
+                .settings.add( 400, 400, getButton("next"))
                 .print()
             ,
-            newSelector()
 
-                .settings.add( getButton("true") , getButton("false") )
-                .settings.keys(          "ArrowLeft"  ,           "ArrowRight")
-                .settings.log()
+            newSelector()
+                .settings.add(getButton("next"))
                 .wait()
 
     )
@@ -345,26 +378,14 @@ PennController.Template(PennController.GetTable("practice.csv"),
     .log( "ID" , getVar("ID")) // ensures that for each trial, logging value of ID in variable ID; this should be OUTSIDE of PennController()
     );
 //
-//8. Break
-    PennController("break"
-        ,
-        newText("next", "Let's take a break. Press any key to continue when you are ready.")
-            .settings.css("font-size", "2em")
-            .center()
-            .print()
-        ,
-        newKey("any", "")
-            .wait()
-    )
 //
-//
-// 9. Send results
+// 8. Send results
     PennController.SendResults( "send" ); // important!!! Sends all results to the server
 //
 //
 //
 //
-// 10. Thank you screen
+// 9. Thank you screen
 PennController( "final" ,
                 newText("<p>Thank you for your participation!</p>")
                 .print()

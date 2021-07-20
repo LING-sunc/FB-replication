@@ -384,8 +384,7 @@ PennController("hello"
     )
 
     .log("Item", variable.Item)
-    .log("List", variable.List)
-    .log("Condition", variable.Condition)
+    .log("Image", variable.Image)
     .log( "ID" , getVar("ID")) // ensures that for each trial, logging value of ID in variable ID; this should be OUTSIDE of PennController()
     );
 //

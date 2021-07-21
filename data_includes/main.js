@@ -400,7 +400,7 @@ PennController( "final" ,
                 newText("<p>Thank you for your participation!</p>")
                 .print()
                 ,
-                newText("<p><a href='https://app.prolific.co/submissions/complete?cc=658AB7CA'>Please click this link to confirm your participation</a></p>") // confirmation link (e.g., for payment)
+                newText("<p><a href='https://app.prolific.co/submissions/complete?cc=2EFC79A4'>Please click this link to confirm your participation</a></p>") // confirmation link (e.g., for payment)
                 .print()
                 ,
                 newButton("void") // this creates a 'void' button that must be clicked to continue. This is because we don't want them to be able to continue beyond this screen
